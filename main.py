@@ -470,9 +470,7 @@ def pause():
 
 def generate_level(size):
     level_blocks = []
-    # Base floor
-    for i in range(30):  # Extend the floor further if needed
-        level_blocks.append(Block(i * size, HEIGHT - size, size))
+    
     
     # Elevated platforms
     level_blocks.append(Block(5 * size, HEIGHT - size * 3, size))
@@ -536,7 +534,7 @@ def main(window, sound_enabled=True):
     floor = [Block(i * block_size, HEIGHT - block_size, block_size) for i in range(-WIDTH // block_size, (WIDTH * 10) // block_size)]
     fire = Fire(100, HEIGHT - block_size - 64, 16, 32)
     fire.on()
-    objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size), Block(block_size*3, HEIGHT - block_size*4, block_size), *generate_level(96), fire]
+    objects = [*floor, *generate_level(96), fire]
     scroll_area_width = 200
     scroll_area_height = 150
     offset_x = 0
