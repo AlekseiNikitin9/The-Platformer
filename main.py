@@ -165,7 +165,8 @@ class Player(pygame.sprite.Sprite):
                 self.die()
 
     def die(self):
-        pass    
+        menu(WINDOW)
+        
 
     def move(self, dx, dy):
         self.rect.x += dx
@@ -377,6 +378,7 @@ def menu(window):
     letters = load_font_spritesheet(join('assets', 'Menu', 'Text', 'Text (White) (8x10).png'))
 
     bg, bg_image = get_bg('Gray.png')
+    first_level_track.stop()
     menu_music.play(-1)
     
     # Load cursor image
@@ -510,10 +512,6 @@ def generate_level(size):
     level_blocks.append(Block(12 * size, HEIGHT - size * 6, size))
     level_blocks.append(Block(13 * size, HEIGHT - size * 7, size))
     level_blocks.append(Block(14 * size, HEIGHT - size * 8, size))
-
-    # Long horizontal platform for a running challenge
-    #for i in range(7, 12):
-        #level_blocks.append(Block(i * size, HEIGHT - size * 4, size))
 
     # A series of small platforms that act as a maze
     for j in range(1, 5):
