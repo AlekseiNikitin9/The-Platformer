@@ -473,8 +473,8 @@ def generate_level(size):
     
     
     # Elevated platforms
-    level_blocks.append(Block(5 * size, HEIGHT - size * 3, size))
-    level_blocks.append(Block(6 * size, HEIGHT - size * 3, size))
+    #level_blocks.append(Block(5 * size, HEIGHT - size * 3, size))
+    #level_blocks.append(Block(6 * size, HEIGHT - size * 3, size))
     level_blocks.append(Block(10 * size, HEIGHT - size * 5, size))
     level_blocks.append(Block(15 * size, HEIGHT - size * 2, size))
     level_blocks.append(Block(16 * size, HEIGHT - size * 2, size))
@@ -512,8 +512,8 @@ def generate_level(size):
     level_blocks.append(Block(14 * size, HEIGHT - size * 8, size))
 
     # Long horizontal platform for a running challenge
-    for i in range(7, 12):
-        level_blocks.append(Block(i * size, HEIGHT - size * 4, size))
+    #for i in range(7, 12):
+        #level_blocks.append(Block(i * size, HEIGHT - size * 4, size))
 
     # A series of small platforms that act as a maze
     for j in range(1, 5):
@@ -532,9 +532,10 @@ def main(window, sound_enabled=True):
     pause_button_hover = pygame.image.load(join('other_assets', 'png@0.5x', 'Buttons', 'Square', 'Pause', 'Hover@0.5x.png')).convert_alpha()
     player = Player(100, 100, 50, 50)
     floor = [Block(i * block_size, HEIGHT - block_size, block_size) for i in range(-WIDTH // block_size, (WIDTH * 10) // block_size)]
-    fire = Fire(100, HEIGHT - block_size - 64, 16, 32)
-    fire.on()
-    objects = [*floor, *generate_level(96), fire]
+    #multiplying and dividing by 3 because there are three fire widths in one block size
+    fire = [Fire(i*block_size/3, HEIGHT - block_size - 64, 16, 32) for i in range (3*3,15*3)]
+
+    objects = [*floor, *generate_level(96), *fire]
     scroll_area_width = 200
     scroll_area_height = 150
     offset_x = 0
@@ -562,7 +563,9 @@ def main(window, sound_enabled=True):
                     pause()         
         player.update_hit(current_time)
         player.loop(FPS)
-        fire.loop()
+        for obj in fire:
+            obj.loop()
+            obj.on()
         handle_move(player, objects)
         draw(WINDOW, bg, bg_image, player, objects, offset_x, offset_y)
         if pause_button_rect.collidepoint((mouse_x, mouse_y)):
